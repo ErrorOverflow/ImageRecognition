@@ -22,7 +22,6 @@ public class PixelStream implements Runnable {
         try {
             System.out.println(System.currentTimeMillis());
             PictureInfo pic = new PictureInfo(source_image);
-            System.out.println(System.currentTimeMillis());
         } catch (Exception e) {
             e.printStackTrace();
         }
