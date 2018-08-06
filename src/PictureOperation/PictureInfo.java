@@ -18,8 +18,8 @@ public class PictureInfo {
         this.width = image.getWidth();
         this.min_x = image.getMinX();
         this.min_y = image.getMinY();
-        this.divx = (height - min_y) / 4;
-        this.divy = (width - min_x) / 4;
+        this.divy = (height - min_y) / 4;
+        this.divx = (width - min_x) / 4;
         transformGray_R();
     }
 
@@ -28,7 +28,7 @@ public class PictureInfo {
         Lock_PicThread2PictureInfo LOCK = new Lock_PicThread2PictureInfo();
         PicThread[] threads = new PicThread[16];
         for (int i = 0; i < 16; i++) {
-            threads[i] = new PicThread(i, min_x + divx * (i % 4 ), min_x + divx * (i % 4) - 1, min_y + divy * (i / 4), min_y + divy * (i / 4 + 1)-1, image, LOCK);
+            threads[i] = new PicThread(i, min_x + divx * (i % 4), min_x + divx * (i % 4 + 1) - 1, min_y + divy * (i / 4), min_y + divy * (i / 4 + 1) - 1, image, LOCK);
             new Thread(threads[i]).start();
         }
         for (int i = 0; i < 16; i++) {
@@ -40,19 +40,20 @@ public class PictureInfo {
 
     public void setImagePixel(PixelBlock newPixel) {
         int minx = min_x + divx * (newPixel.getNum() % 4);
-        int maxx = min_x + divx * (newPixel.getNum() % 4) - 1;
+        int maxx = min_x + divx * (newPixel.getNum() % 4 + 1) - 1;
         int miny = min_y + divy * (newPixel.getNum() / 4);
-        int maxy = min_y + divy * (newPixel.getNum() / 4 + 1)-1;
+        int maxy = min_y + divy * (newPixel.getNum() / 4 + 1) - 1;
         for (int i = minx; i <= maxx; i++) {
             for (int j = miny; j <= maxy; j++) {
-                image_pixel[i][j][0] = newPixel.getInfo()[i - min_x][j - min_y][0];
-                image_pixel[i][j][1] = newPixel.getInfo()[i - min_x][j - min_y][1];
-                image_pixel[i][j][2] = newPixel.getInfo()[i - min_x][j - min_y][2];
+                image_pixel[i][j][0] = newPixel.getInfo()[i - minx][j - miny][0];
+                image_pixel[i][j][1] = newPixel.getInfo()[i - minx][j - miny][1];
+                image_pixel[i][j][2] = newPixel.getInfo()[i - minx][j - miny][2];
             }
         }
     }
 }
 
+//width:1792 height:1198
 class PicThread implements Runnable {
     private BufferedImage image;
     private int num;
@@ -75,8 +76,9 @@ class PicThread implements Runnable {
 
     public void run() {
         try {
-            for (int y = miny; y < maxy; y++) {
-                for (int x = minx; x < maxx; x++) {
+            //System.out.println(minx + " " + maxx + " " + miny + " " + maxy);
+            for (int y = miny; y <= maxy; y++) {
+                for (int x = minx; x <= maxx; x++) {
                     //获取包含这个像素的颜色信息的值, int型
                     int pixelinfo = image.getRGB(x, y);
                     //从pixel中获取rgb的值
@@ -112,7 +114,7 @@ class Lock_PicThread2PictureInfo {
         while (!lock) {
             wait();
         }
-        PixelBlock mid=info;
+        PixelBlock mid = info;
         lock = false;
         notifyAll();
         return mid;
