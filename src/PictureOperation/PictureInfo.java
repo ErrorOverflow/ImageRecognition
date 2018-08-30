@@ -12,6 +12,14 @@ public class PictureInfo {
     private int divy;
     private int[][][] image_pixel = new int[2000][3000][3];
 
+    public BufferedImage getImage() {
+        return image;
+    }
+
+    public void setRGB(int x, int y, int pixel) {
+        image.setRGB(x, y, pixel);
+    }
+
     public PictureInfo(BufferedImage im) throws InterruptedException {
         this.image = im;
         this.height = image.getHeight();
