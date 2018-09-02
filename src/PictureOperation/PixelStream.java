@@ -4,6 +4,10 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.*;
 
+/**
+ * @author wmlbuaa
+ * @date 2018-08-26
+ */
 public class PixelStream implements Runnable {
     private BufferedImage source_image;
 
