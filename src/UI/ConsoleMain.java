@@ -2,8 +2,6 @@ package UI;
 
 import PictureOperation.PixelStream;
 
-import java.util.Scanner;
-
 /**
  * @author wmlbuaa
  * @date 2018-08-26
