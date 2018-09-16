@@ -1,11 +1,11 @@
 package Ashing;
 
-import PictureOperation.PictureInfo;
+import PictureOperation.Picture;
 
 import java.awt.image.BufferedImage;
 
-class Ashing {
-    public Ashing(PictureInfo PicInfo) {
+public class Ashing {
+    public Ashing(Picture PicInfo) {
         BufferedImage image;
         try {
             image = PicInfo.getImage();

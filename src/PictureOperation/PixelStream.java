@@ -10,8 +10,9 @@ import javax.imageio.*;
  */
 public class PixelStream implements Runnable {
     private BufferedImage source_image;
+    private Picture picture;
 
-    public PixelStream(String image_address) {
+    public PixelStream(String image_address,Picture pic) {
         File file = new File(image_address);
         if (file.exists()) {
             try {
@@ -24,7 +25,7 @@ public class PixelStream implements Runnable {
 
     public void run() {
         try {
-            PictureInfo pic = new PictureInfo(source_image);
+            this.picture = new Picture(source_image);
         } catch (Exception e) {
             e.printStackTrace();
         }

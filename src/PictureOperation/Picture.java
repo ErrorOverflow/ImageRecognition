@@ -1,12 +1,14 @@
 package PictureOperation;
 
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.File;
 
 /**
  * @author wmlbuaa
  * @date 2018-08-26
  */
-public class PictureInfo {
+public class Picture implements Runnable{
     private BufferedImage image;
     private int height;
     private int width;
@@ -24,7 +26,10 @@ public class PictureInfo {
         image.setRGB(x, y, pixel);
     }
 
-    public PictureInfo(BufferedImage im) throws InterruptedException {
+    public Picture() {
+    }
+
+    public Picture(BufferedImage im) throws InterruptedException {
         this.image = im;
         this.height = image.getHeight();
         this.width = image.getWidth();
@@ -36,7 +41,7 @@ public class PictureInfo {
     }
 
     public void transformGray_R() throws InterruptedException {
-        System.out.println(System.currentTimeMillis());
+        System.out.println("start getting picture's info: " + System.currentTimeMillis());
         Lock_PicThread2PictureInfo LOCK = new Lock_PicThread2PictureInfo();
         PicThread[] threads = new PicThread[16];
         for (int i = 0; i < 16; i++) {
@@ -47,7 +52,7 @@ public class PictureInfo {
             PixelBlock pixelBlock = LOCK.getInfo();
             setImagePixel(pixelBlock);
         }
-        System.out.println(System.currentTimeMillis());
+        System.out.println("finished getting info: " + System.currentTimeMillis());
     }
 
     public void setImagePixel(PixelBlock newPixel) {
@@ -60,6 +65,17 @@ public class PictureInfo {
                 image_pixel[i][j][0] = newPixel.getInfo()[i - minx][j - miny][0];
                 image_pixel[i][j][1] = newPixel.getInfo()[i - minx][j - miny][1];
                 image_pixel[i][j][2] = newPixel.getInfo()[i - minx][j - miny][2];
+            }
+        }
+    }
+
+    public void run(String image_address){
+        File file = new File(image_address);
+        if (file.exists()) {
+            try {
+                this.image = ImageIO.read(file);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }
