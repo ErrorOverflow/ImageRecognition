@@ -12,6 +12,7 @@ public class ConsoleMain {
     public static final String IMAGE_PATH = "Picture//source_image.jpg";
 
     public static void main(String[] args) {
+        System.out.println(System.currentTimeMillis());
         Map<String, String> map = System.getenv();
         String userName = map.get("USERNAME");
 
@@ -19,5 +20,6 @@ public class ConsoleMain {
         picture.readImage(IMAGE_PATH);
         Ashing ashing = new Ashing(picture);
         picture.saveImage("C:\\Users\\"+userName+"\\Pictures\\a.jpg");
+        System.out.println(System.currentTimeMillis());
     }
 }

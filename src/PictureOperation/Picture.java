@@ -82,10 +82,6 @@ public class Picture{
         }
     }
 
-    public void saveImage(){
-
-    }
-
     public void saveImage(String address){
         File file=new File(address);
         try {
