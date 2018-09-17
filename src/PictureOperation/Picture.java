@@ -1,14 +1,16 @@
 package PictureOperation;
 
 import javax.imageio.ImageIO;
+import javax.imageio.stream.ImageOutputStream;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 
 /**
  * @author wmlbuaa
  * @date 2018-08-26
  */
-public class Picture implements Runnable{
+public class Picture{
     private BufferedImage image;
     private int height;
     private int width;
@@ -69,7 +71,7 @@ public class Picture implements Runnable{
         }
     }
 
-    public void run(String image_address){
+    public void readImage(String image_address){
         File file = new File(image_address);
         if (file.exists()) {
             try {
@@ -77,6 +79,19 @@ public class Picture implements Runnable{
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public void saveImage(){
+
+    }
+
+    public void saveImage(String address){
+        File file=new File(address);
+        try {
+            ImageIO.write(this.image,"jpg",file);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

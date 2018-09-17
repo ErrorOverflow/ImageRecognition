@@ -1,26 +1,23 @@
 package UI;
-
 import Ashing.Ashing;
 import PictureOperation.Picture;
-import PictureOperation.PixelStream;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.util.Map;
 
 /**
  * @author wmlbuaa
  * @date 2018-08-26
  */
 public class ConsoleMain {
+    public static final String IMAGE_PATH = "Picture//source_image.jpg";
+
     public static void main(String[] args) {
+        Map<String, String> map = System.getenv();
+        String userName = map.get("USERNAME");
+
         Picture picture = new Picture();
-        try {
-            BufferedImage image = ImageIO.read(new File("Picture//source_image.jpg"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Ashing ashing =new Ashing(picture);
+        picture.readImage(IMAGE_PATH);
+        Ashing ashing = new Ashing(picture);
+        picture.saveImage("C:\\Users\\"+userName+"\\Pictures\\a.jpg");
     }
 }
