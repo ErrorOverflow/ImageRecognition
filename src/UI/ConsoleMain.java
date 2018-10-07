@@ -18,7 +18,7 @@ public class ConsoleMain {
 
         Picture picture = new Picture();
         picture.readImage(IMAGE_PATH);
-        Ashing ashing = new Ashing(picture);
+        new Ashing(picture);
         picture.saveImage("C:\\Users\\"+userName+"\\Pictures\\a.jpg");
         System.out.println(System.currentTimeMillis());
     }
