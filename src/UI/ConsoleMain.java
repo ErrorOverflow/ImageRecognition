@@ -1,4 +1,5 @@
 package UI;
+
 import Ashing.Ashing;
 import PictureOperation.Picture;
 
@@ -19,7 +20,7 @@ public class ConsoleMain {
         Picture picture = new Picture();
         picture.readImage(IMAGE_PATH);
         new Ashing(picture);
-        picture.saveImage("C:\\Users\\"+userName+"\\Pictures\\a.jpg");
+        picture.saveImage("C:\\Users\\" + userName + "\\Pictures\\"+System.currentTimeMillis()+".jpg");
         System.out.println(System.currentTimeMillis());
     }
 }

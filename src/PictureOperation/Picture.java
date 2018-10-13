@@ -1,7 +1,6 @@
 package PictureOperation;
 
 import javax.imageio.ImageIO;
-import javax.imageio.stream.ImageOutputStream;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -19,6 +18,8 @@ public class Picture{
     private int divx;
     private int divy;
     private int[][][] image_pixel = new int[2000][3000][3];
+
+    private String name;
 
     public BufferedImage getImage() {
         return image;
@@ -39,6 +40,7 @@ public class Picture{
         this.min_y = image.getMinY();
         this.divy = (height - min_y) / 4;
         this.divx = (width - min_x) / 4;
+
         transformGray_R();
     }
 
