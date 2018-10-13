@@ -9,7 +9,7 @@ import java.io.IOException;
  * @author wmlbuaa
  * @date 2018-08-26
  */
-public class Picture{
+public class Picture {
     private BufferedImage image;
     private int height;
     private int width;
@@ -45,14 +45,60 @@ public class Picture{
     }
 
     public void transformGray_R() throws InterruptedException {
+        int ComputerCore = Runtime.getRuntime().availableProcessors();
         System.out.println("start getting picture's info: " + System.currentTimeMillis());
         Lock_PicThread2PictureInfo LOCK = new Lock_PicThread2PictureInfo();
-        PicThread[] threads = new PicThread[16];
-        for (int i = 0; i < 16; i++) {
-            threads[i] = new PicThread(i, min_x + divx * (i % 4), min_x + divx * (i % 4 + 1) - 1, min_y + divy * (i / 4), min_y + divy * (i / 4 + 1) - 1, image, LOCK);
-            new Thread(threads[i]).start();
+        PicThread[] threads = new PicThread[ComputerCore];
+        switch (ComputerCore) {
+            case 4: {
+                for (int i = 0; i < ComputerCore; i++) {
+                    threads[i] = new PicThread(i, min_x + divx * (i % 2), min_x + divx * (i % 2 + 1) - 1,
+                            min_y + divy * (i / 2), min_y + divy * (i / 2 + 1) - 1, image, LOCK);
+                    new Thread(threads[i]).start();
+                }
+                break;
+            }
+            case 6: {
+                for (int i = 0; i < ComputerCore; i++) {
+                    threads[i] = new PicThread(i, min_x + divx * (i % 3), min_x + divx * (i % 3 + 1) - 1,
+                            min_y + divy * (i / 2), min_y + divy * (i / 2 + 1) - 1, image, LOCK);
+                    new Thread(threads[i]).start();
+                }
+                break;
+            }
+            case 8: {
+                for (int i = 0; i < ComputerCore; i++) {
+                    threads[i] = new PicThread(i, min_x + divx * (i % 4), min_x + divx * (i % 4 + 1) - 1,
+                            min_y + divy * (i / 2), min_y + divy * (i / 2 + 1) - 1, image, LOCK);
+                    new Thread(threads[i]).start();
+                }
+                break;
+            }
+            case 12: {
+                for (int i = 0; i < ComputerCore; i++) {
+                    threads[i] = new PicThread(i, min_x + divx * (i % 4), min_x + divx * (i % 4 + 1) - 1,
+                            min_y + divy * (i / 3), min_y + divy * (i / 3 + 1) - 1, image, LOCK);
+                    new Thread(threads[i]).start();
+                }
+                break;
+            }
+            case 16: {
+                for (int i = 0; i < ComputerCore; i++) {
+                    threads[i] = new PicThread(i, min_x + divx * (i % 4), min_x + divx * (i % 4 + 1) - 1,
+                            min_y + divy * (i / 4), min_y + divy * (i / 4 + 1) - 1, image, LOCK);
+                    new Thread(threads[i]).start();
+                }
+                break;
+            }
+            default:{
+                for (int i = 0; i < ComputerCore; i++) {
+                    threads[i] = new PicThread(i, min_x + divx * (i % 1), min_x + divx * (i % 1 + 1) - 1,
+                            min_y + divy * (i / 1), min_y + divy * (i / 1 + 1) - 1, image, LOCK);
+                    new Thread(threads[i]).start();
+                }
+            }
         }
-        for (int i = 0; i < 16; i++) {
+        for (int i = 0; i < ComputerCore; i++) {
             PixelBlock pixelBlock = LOCK.getInfo();
             setImagePixel(pixelBlock);
         }
@@ -73,7 +119,7 @@ public class Picture{
         }
     }
 
-    public void readImage(String image_address){
+    public void readImage(String image_address) {
         File file = new File(image_address);
         if (file.exists()) {
             try {
@@ -84,10 +130,10 @@ public class Picture{
         }
     }
 
-    public void saveImage(String address){
-        File file=new File(address);
+    public void saveImage(String address) {
+        File file = new File(address);
         try {
-            ImageIO.write(this.image,"jpg",file);
+            ImageIO.write(this.image, "jpg", file);
         } catch (IOException e) {
             e.printStackTrace();
         }
